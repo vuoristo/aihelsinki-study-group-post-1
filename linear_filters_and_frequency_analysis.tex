@@ -192,7 +192,7 @@ gaussian_kernel = gaussian_filter(impulse, 3)
 filtered_input = signal.convolve2d(img, gaussian_kernel)
 
 # Compute the frequency-based representation of the
-# filter fftshift is a convenience method for
+# filter. fftshift is a convenience method for
 # organizing the fft-output
 f_b_representation = np.abs(
     np.fft.fftshift(np.fft.fft2(gaussian_kernel)))
@@ -318,7 +318,7 @@ In the following example Gabor filters are applied to an image to obtain a
 spatial amplitude map of a vertical frequency component. The amplitude is
 computed from the equation $A = \sqrt{C^{2}+S^{2}}$. The Gabor filters are
 presented in figure \ref{fig:gabor-kernel}. The filters have a phase difference
-of $\pi/2$. The output of the amplitude calculation is presented in
+of $\pi$. The output of the amplitude calculation is presented in
 figure~\ref{fig:gabor-input-output}. As expected from the filter images the
 figure shows that the selected filters resulted in high output where vertical
 features are present in the input image.
