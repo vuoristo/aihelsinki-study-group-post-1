@@ -68,7 +68,7 @@ context of natural image statistics this is done because the impulse response
 has desired properties in the frequency based analysis of linear filtering,
 which we will come back to in the next section. The other reason is that the
 convolution operation offers mathematical convenience as it is a commutative
-operation\cite{deeplearningbook}.
+operation\url{http://www.deeplearningbook.org/contents/convnets.html}.
 
 With convolution in our toolbox we can express the filtering operation using
 the impulse response as
@@ -124,8 +124,8 @@ using discrete Fourier transformation. The theory of discrete Fourier
 transformation is quite involved and will not be reviewed here. The textbook
 chapter 20 provides a mathematical treatment of the theory of Fourier analysis.
 Details on how DFT is used for acquiring the frequency based representation are
-provided in the textbook chapter 2.\cite{naturalimagestatistics} For now we are
-going to focus on the uses of the frequency-based representation.
+provided in the textbook chapter 2. For now we are going to focus on the uses of
+the frequency-based representation.
 
 Linear filters and sinusoidals have a special relationship. The output of
 linear filtering on a sinusoidal wave is a sinusoidal wave with same frequency
@@ -155,14 +155,20 @@ frequencies.
 
 \subsubsection{Example of Linear Filtering}
 \label{example-of-linear-filtering}
-The concepts described above are demonstrated in the following code snippets.
-In the first snippet a gaussian kernel is extracted from the SciPy gaussian
-filtering operation using the properties of impulse response. NumPy is used
-throughout the examples and the library name abbreviated as np.
+The concepts described above are demonstrated in the following code snippet.
+NumPy is used throughout the example and the library name abbreviated as np.
 
+First a gaussian kernel is extracted from the SciPy gaussian filtering operation
+using the properties of impulse response. Next the filter is applied to an input
+image using 2d convolution. The input image is just a 2d NumPy array containing
+the grayscale input image. The image can be read using PIL, SciPy, OpenCV or
+similar. And finally the frequency-based representation of the filter is
+obtained using Fast-Fourier Transformation.
+
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Python]
 # Here we make use of the properties of the impulse
-# response to get a gaussian kernel using the scipy
+# response to get a gaussian kernel using the SciPy
 # gaussian filter. Create an array with all zeros
 # except for one element in the center.
 impulse = np.zeros((21,21))
@@ -172,9 +178,20 @@ impulse[10,10] = 1.
 # the gaussian kernel. gaussian_filter is
 # scipy.ndimage.filters.gaussian_filter
 gaussian_kernel = gaussian_filter(impulse, 3)
+
+# Convolve the kernel with the example image
+filtered_input = signal.convolve2d(img, gaussian_kernel)
+
+# Compute the frequency-based representation of the
+# filter fftshift is a convenience method for
+# organizing the fft-output
+f_b_representation = np.abs(
+    np.fft.fftshift(np.fft.fft2(gaussian_kernel)))
 \end{lstlisting}
-The gaussian kernel and its amplitude response are shown in the
-figure~\ref{fig:gaussian-kernel}.
+\end{minipage}
+
+The gaussian kernel extracted from the SciPy filtering operation and its
+amplitude response are shown in the figure~\ref{fig:gaussian-kernel}.
 \begin{figure}
   \label{fig:gaussian-kernel}
   \centering
@@ -190,14 +207,9 @@ figure~\ref{fig:gaussian-kernel}.
     right.}
 \end{figure}
 
-In the second code snippet the filter is applied to an input image using 2d
-convolution. The input image is just a 2d NumPy array containing the grayscale
-input image. The image can be read using PIL, SciPy, OpenCV or similar.
-\begin{lstlisting}[language=Python]
-# Convolve the kernel with the example image
-filtered_input = signal.convolve2d(img, gaussian_kernel)
-\end{lstlisting}
-The input image for the convolution is presented in the following figure. (source: \url{https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss_1840_by_Jensen.jpg})
+The input image for the convolution and the results of convolution with Gaussian
+arepresented in the figure~\ref{fig:gaussian-input-output}. (source:
+\url{https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss_1840_by_Jensen.jpg})
 \begin{figure}
   \label{fig:gaussian-input-output}
   \centering
@@ -209,18 +221,9 @@ The input image for the convolution is presented in the following figure. (sourc
       \centering
       \includegraphics[width=0.99\linewidth]{output.png}
     \end{subfigure}
-    \caption{Input and output images to the gaussian filter.}
+    \caption{Input and output images of the Gaussian filter.}
 \end{figure}
 
-In the last snippet the frequency-based representation of the gaussian kernel
-is computed.
-\begin{lstlisting}[language=Python]
-# Compute the frequency-based representation of the
-# filter fftshift is a convenience method for
-# organizing the fft-output
-f_b_representation = np.abs(
-    np.fft.fftshift(np.fft.fft2(gaussian_kernel)))
-\end{lstlisting}
 The amplitude response of the filter kernel is shown in
 figure~\ref{fig:gaussian-kernel}. In the picture dark pixels correspond to small
 amplitude and light pixels correspond to high amplitude. The amplitude of the 0
@@ -228,16 +231,16 @@ frequency is shown in the center of the picture. The pixels away from the center
 have higher frequencies. The direction where the pixel is from the center
 corresponds to the direction of the wave.
 
-The gaussian filter does not have any surprising properties in the frequency
+The Gaussian filter does not have any surprising properties in the frequency
 domain. In the frequency-based representation only the components very close to
 the origin remain, which means the high-frequency components have been removed.
 The final image is blurred as a result.
 
-With a gaussian kernel computed with smaller standard deviation more of the high
+With a Gaussian kernel computed with smaller standard deviation more of the high
 frequency components are retained. The figure~\ref{fig:gaussian-kernel-2}
-presents the new kernel. The corresponding frequency-based representation shows
-that there are more high frequency components retained (bright pixels away from
-origin).
+presents the new kernel and its amplitude response. The corresponding amplitude
+response shows that there are more high frequency components retained (bright
+pixels away from origin).
 \begin{figure}
   \label{fig:gaussian-kernel-2}
   \centering
