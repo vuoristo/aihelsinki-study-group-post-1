@@ -3,6 +3,8 @@
 \usepackage{amssymb,amsmath}
 \usepackage{listings}
 \usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{hyperref}
 
 \begin{document}
 
@@ -102,10 +104,15 @@ corresponding directions. The two dimensional sinusoidal components are
 basically just cosine waves on a plane with different frequencies, amplitudes
 and phases. The following figures present examples of such waves.
 \begin{figure}
-    \includegraphics{sinusoidal1.png}
-\end{figure}
-\begin{figure}
-    \includegraphics{sinusoidal2.png}
+  \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{sinusoidal1.png}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{sinusoidal2.png}
+    \end{subfigure}
 \end{figure}
 
 The transformation from the spatial domain to the frequency domain can be done
@@ -125,7 +132,10 @@ following frequency-based representation
 \end{equation}
 the response of the linear filter has the following frequency-based representation
 \begin{equation}
-  O(x,y) = H(x,y) \ast I(x,y) = \sum_{\omega_{x}}{\sum_{\omega_{y}}{\lvert \tilde{H}(\omega_{x},\omega_{y})\rvert A_{\omega_{x},\omega_{y}} \cos(\omega_{x} x + \omega_{y} y + \Psi_{\omega_{x},\omega_{y}} + \angle\tilde{H}(\omega_{x},\omega_{y}))}}
+  \begin{split}
+O(x,y) = H(x,y) \ast I(x,y) = \\
+   \sum_{\omega_{x}}{\sum_{\omega_{y}}{\lvert \tilde{H}(\omega_{x},\omega_{y})\rvert A_{\omega_{x},\omega_{y}} \cos(\omega_{x} x + \omega_{y} y + \Psi_{\omega_{x},\omega_{y}} + \angle\tilde{H}(\omega_{x},\omega_{y}))}}
+  \end{split}
 \end{equation}
 where $\lvert\tilde{H}(\omega_{x},\omega_{y})\rvert$ denotes the amplitude
 magnification factor of the linear filter and
