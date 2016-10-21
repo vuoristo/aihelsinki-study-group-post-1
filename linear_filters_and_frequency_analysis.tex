@@ -22,6 +22,7 @@ pixel and computing the output.
 
 The output O(x,y) is given by following equation
 \begin{equation}
+  \label{eq:linear-filtering}
   O(x,y) = \sum_{x_*=-K}^{K}\sum_{y_*=-K}^{K}{W(x_*,y_*)I(x+x_*,y+y_*)}
 \end{equation}
 where $W$ is the filter of size $(2K+1)*(2K+1)$, $I$ is the input image and $O$
@@ -55,11 +56,11 @@ function is given by
 \end{equation}
 
 The impulse response $H(x,y)$ of a filter $W(x,y)$ can be computed by plugging
-the delta function above to the equation of linear filtering defined at the top
-of the page. By doing so you can observe that $H(x,y) = W(-x,-y)$. This defines
-the relationship between convolution and linear correlation. The filter used in
-convolution is thus a ''mirror image`` of the weights used in linear
-correlation.
+the delta function above to the equation of linear filtering
+\ref{eq:linear-filtering} defined at the top of the page. By doing so you can
+observe that $H(x,y) = W(-x,-y)$. This defines the relationship between
+convolution and linear correlation. The filter used in convolution is thus a
+''mirror image`` of the weights used in linear correlation.
 
 Why would anyone bother mirroring their weight matrix to compute convolutions
 instead of linear correlations you may ask? There are two reasons. In the
@@ -102,8 +103,9 @@ representation of a signal is given by $A \cos(\omega_{x} x + \omega_{y} y +
 \Psi)$, where $\omega_{x}$ and $\omega_{y}$ stand for frequencies in
 corresponding directions. The two dimensional sinusoidal components are
 basically just cosine waves on a plane with different frequencies, amplitudes
-and phases. The following figures present examples of such waves.
+and phases. The figures~\ref{sinusoidal-waves} present examples of such waves.
 \begin{figure}
+  \label{fig:sinusoidal-waves}
   \centering
     \begin{subfigure}[t]{0.49\textwidth}
       \centering
@@ -113,6 +115,8 @@ and phases. The following figures present examples of such waves.
       \centering
       \includegraphics[width=0.99\linewidth]{sinusoidal2.png}
     \end{subfigure}
+    \caption{Two examples of sinusoidal waves with different x and y
+    frequencies}
 \end{figure}
 
 The transformation from the spatial domain to the frequency domain can be done
@@ -133,8 +137,8 @@ following frequency-based representation
 the response of the linear filter has the following frequency-based representation
 \begin{equation}
   \begin{split}
-O(x,y) = H(x,y) \ast I(x,y) = \\
-   \sum_{\omega_{x}}{\sum_{\omega_{y}}{\lvert \tilde{H}(\omega_{x},\omega_{y})\rvert A_{\omega_{x},\omega_{y}} \cos(\omega_{x} x + \omega_{y} y + \Psi_{\omega_{x},\omega_{y}} + \angle\tilde{H}(\omega_{x},\omega_{y}))}}
+    O(x,y) & = H(x,y) \ast I(x,y) = \\
+           & \sum_{\omega_{x}}{\sum_{\omega_{y}}{\lvert \tilde{H}(\omega_{x},\omega_{y})\rvert A_{\omega_{x},\omega_{y}} \cos(\omega_{x} x + \omega_{y} y + \Psi_{\omega_{x},\omega_{y}} + \angle\tilde{H}(\omega_{x},\omega_{y}))}}
   \end{split}
 \end{equation}
 where $\lvert\tilde{H}(\omega_{x},\omega_{y})\rvert$ denotes the amplitude
@@ -143,10 +147,11 @@ $\angle\tilde{H}(\omega_{x},\omega_{y})$ denotes the phase shift of the filter.
 The $\lvert\tilde{H}(\omega_{x},\omega_{y})\rvert A_{\omega_{x},\omega_{y}}$
 part of the equation is called the amplitude response.
 
-Using this property of the frequency-based representation makes analysis of the
-linear filters straightforward. It is difficult to describe the behavior of a
-filter based solely on its spatial representation but if its amplitude response
-is available you can tell what the filter does for different frequencies.
+The use of this property of the frequency-based representation makes analysis of
+the linear filters straightforward. It is difficult to describe the behavior of
+a filter based solely on its spatial representation but if its amplitude
+response is available you can tell what the filter does for different
+frequencies.
 
 \subsubsection{Example of Linear Filtering}
 \label{example-of-linear-filtering}
@@ -168,9 +173,21 @@ impulse[10,10] = 1.
 # scipy.ndimage.filters.gaussian_filter
 gaussian_kernel = gaussian_filter(impulse, 3)
 \end{lstlisting}
-The gaussian kernel is shown in the following figure.
+The gaussian kernel and its amplitude response are shown in the following
+figure.
 \begin{figure}
-    \includegraphics{kernel.png}
+  \label{fig:gaussian-kernel}
+  \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{kernel.png}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{freq.png}
+    \end{subfigure}
+    \caption{Gaussian kernel on the left with its amplitude response on the
+    right.}
 \end{figure}
 
 In the second code snippet the filter is applied to an input image using 2d
@@ -182,11 +199,17 @@ filtered_input = signal.convolve2d(img, gaussian_kernel)
 \end{lstlisting}
 The input image for the convolution is presented in the following figure. (source: \url{https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss_1840_by_Jensen.jpg})
 \begin{figure}
-    \includegraphics{input.png}
-\end{figure}
-And the corresponding output.
-\begin{figure}
-    \includegraphics{output.png}
+  \label{fig:gaussian-input-output}
+  \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{input.png}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{output.png}
+    \end{subfigure}
+    \caption{Input and output images to the gaussian filter.}
 \end{figure}
 
 In the last snippet the frequency-based representation of the gaussian kernel
@@ -198,29 +221,35 @@ is computed.
 f_b_representation = np.abs(
     np.fft.fftshift(np.fft.fft2(gaussian_kernel)))
 \end{lstlisting}
-The amplitude response of the filter kernel is shown below. In the picture dark
-pixels correspond to small amplitude and light pixels correspond to high
-amplitude. The amplitude of the 0 frequency is shown in the center of the
-picture. The pixels away from the center have higher frequencies. The direction
-where the pixel is from the center corresponds to the direction of the wave.
-\begin{figure}
-    \includegraphics{freq.png}
-\end{figure}
+The amplitude response of the filter kernel is shown in
+figure~\ref{fig:gaussian_kernel}. In the picture dark pixels correspond to small
+amplitude and light pixels correspond to high amplitude. The amplitude of the 0
+frequency is shown in the center of the picture. The pixels away from the center
+have higher frequencies. The direction where the pixel is from the center
+corresponds to the direction of the wave.
+
 The gaussian filter does not have any surprising properties in the frequency
 domain. In the frequency-based representation only the components very close to
 the origin remain, which means the high-frequency components have been removed.
 The final image is blurred as a result.
 
-With a gaussian kernel computed with smaller standard deviation more of the
-high frequency components are retained. The following figure presents the 
-new kernel
+With a gaussian kernel computed with smaller standard deviation more of the high
+frequency components are retained. The
+figure~\ref{fig:gaussian-kernel-2}presents the new kernel. The corresponding
+frequency-based representation shows that there are more high frequency
+components retained (bright pixels away from origin).
 \begin{figure}
-    \includegraphics{kernel2.png}
-\end{figure}
-And the corresponding frequency-based representation shows that there are more
-high frequency components retained.
-\begin{figure}
-    \includegraphics{freq2.png}
+  \label{fig:gaussian-kernel-2}
+  \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{kernel2.png}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{freq2.png}
+    \end{subfigure}
+    \caption{Kernel and its amplitude response.}
 \end{figure}
 
 \subsection{Frequency-based Representation as a Basis}
