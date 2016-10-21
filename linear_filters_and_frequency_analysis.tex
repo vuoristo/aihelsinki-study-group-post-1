@@ -10,17 +10,27 @@
 
 \section{Linear Filters and Frequency Analysis}
 \label{linear-filters-and-frequency-analysis}
+This post is written as part of AIHelsinki study group on natural image
+statistics. This text mostly covers material from Natural Image Statistics book
+chapter 2 available here \url{http://www.naturalimagestatistics.net/}. The
+format of this post is something between learning diary and a summary but I
+tried to include some original examples with reproduction instructions in the
+text.
+
+The topics covered in this post are mostly the same as in the textbook chapter
+2 including linear filtering, frequency analysis, and space-frequency analysis.
+Some material has been left out and there may be inaccuracies so please consider
+this post supplemental to the textbook chapter.
 
 \subsection{Linear Filtering, Convolution and Impulse Response}
 \label{linear-filtering}
-
 Linear filtering is an image processing technique where a filter is applied to
 an input image to produce an output. Inputs and outputs of the linear filtering
 operation are images. The filter itself can be thought of as an image as well.
 The filtering operation corresponds to sliding the filter on the input pixel by
 pixel and computing the output. 
 
-The output O(x,y) is given by following equation
+The output $O(x,y)$ is given by following equation
 \begin{equation}
   \label{eq:linear-filtering}
   O(x,y) = \sum_{x_*=-K}^{K}\sum_{y_*=-K}^{K}{W(x_*,y_*)I(x+x_*,y+y_*)}
@@ -46,8 +56,8 @@ impulse response.
 
 Impulse response $H(x,y)$ is the response of a filter to a short impulse. Short
 impulse is defined as either Dirac delta function for continuous systems or
-Kronecker delta for discrete systems such as 2D images. The Kronecker delta
-function is given by
+Kronecker delta function for discrete systems such as 2D images. The Kronecker
+delta function is given by
 \begin{equation}
   \delta(x,y) = \begin{cases}
     1, & \text{if x = y}\\
@@ -118,7 +128,6 @@ and phases. The figure~\ref{fig:sinusoidal-waves} present examples of such waves
     frequencies}
     \label{fig:sinusoidal-waves}
 \end{figure}
-
 The transformation from the spatial domain to the frequency domain can be done
 using discrete Fourier transformation. The theory of discrete Fourier
 transformation is quite involved and will not be reviewed here. The textbook
@@ -193,7 +202,7 @@ f_b_representation = np.abs(
 The gaussian kernel extracted from the SciPy filtering operation and its
 amplitude response are shown in the figure~\ref{fig:gaussian-kernel}. The input
 image for the convolution and the results of convolution with Gaussian
-arepresented in the figure~\ref{fig:gaussian-input-output}. (source:
+are presented in the figure~\ref{fig:gaussian-input-output}. (source:
 \url{https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss_1840_by_Jensen.jpg})
 \begin{figure}
   \centering
@@ -237,11 +246,11 @@ the origin remain, which means the high-frequency components have been removed.
 The final image is blurred as a result.
 
 With a Gaussian kernel computed with smaller standard deviation more of the high
-frequency components are retained. The figure~\ref{fig:gaussian-kernel-2}
-presents the new kernel and its amplitude response. The corresponding amplitude
-response shows that there are more high frequency components retained (bright
-pixels away from origin). Filtering with such kernel will result to less blurred
-image compared to the kernel in figure \ref{fig:gaussian-kernel}.
+frequency components are retained. Figure~\ref{fig:gaussian-kernel-2} presents
+the new kernel and its amplitude response. The corresponding amplitude response
+shows that there are more high frequency components retained (bright pixels away
+from origin). Filtering with such kernel will result to less blurred image
+compared to the kernel in figure \ref{fig:gaussian-kernel}.
 \begin{figure}
   \centering
     \begin{subfigure}[t]{0.49\textwidth}
@@ -294,8 +303,8 @@ making it very localized. The formula for coefficients $C$ becomes
   C(x,y) = \sum_{x}{\sum_{y}{W(x-x_{0}, y-y_{0}) \cos(\omega_{x} (x - x_{0}) + \omega_{y} (y - y_{0})) }}
 \end{equation}
 The formula for coefficients $S$ is similiar. With the coefficients $C$ and $S$
-at hand, the amplitudes can be calculated using the formula in the previous
-section.
+at hand, the amplitudes can be calculated using the formula
+\ref{eq:amplitude-s-c} given in the previous section.
 
 The windowing function $W(x,y)$ in the above formula for Gabor filters is the
 Gaussian function. The width of the window can be controlled by changing the
