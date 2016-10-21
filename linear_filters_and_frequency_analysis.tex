@@ -173,8 +173,8 @@ impulse[10,10] = 1.
 # scipy.ndimage.filters.gaussian_filter
 gaussian_kernel = gaussian_filter(impulse, 3)
 \end{lstlisting}
-The gaussian kernel and its amplitude response are shown in the following
-figure.
+The gaussian kernel and its amplitude response are shown in the
+figure~\ref{fig:gaussian-kernel}.
 \begin{figure}
   \label{fig:gaussian-kernel}
   \centering
@@ -222,7 +222,7 @@ f_b_representation = np.abs(
     np.fft.fftshift(np.fft.fft2(gaussian_kernel)))
 \end{lstlisting}
 The amplitude response of the filter kernel is shown in
-figure~\ref{fig:gaussian_kernel}. In the picture dark pixels correspond to small
+figure~\ref{fig:gaussian-kernel}. In the picture dark pixels correspond to small
 amplitude and light pixels correspond to high amplitude. The amplitude of the 0
 frequency is shown in the center of the picture. The pixels away from the center
 have higher frequencies. The direction where the pixel is from the center
@@ -234,10 +234,10 @@ the origin remain, which means the high-frequency components have been removed.
 The final image is blurred as a result.
 
 With a gaussian kernel computed with smaller standard deviation more of the high
-frequency components are retained. The
-figure~\ref{fig:gaussian-kernel-2}presents the new kernel. The corresponding
-frequency-based representation shows that there are more high frequency
-components retained (bright pixels away from origin).
+frequency components are retained. The figure~\ref{fig:gaussian-kernel-2}
+presents the new kernel. The corresponding frequency-based representation shows
+that there are more high frequency components retained (bright pixels away from
+origin).
 \begin{figure}
   \label{fig:gaussian-kernel-2}
   \centering
@@ -249,7 +249,7 @@ components retained (bright pixels away from origin).
       \centering
       \includegraphics[width=0.99\linewidth]{freq2.png}
     \end{subfigure}
-    \caption{Kernel and its amplitude response.}
+    \caption{Smaller $\sigma$ kernel and its amplitude response.}
 \end{figure}
 
 \subsection{Frequency-based Representation as a Basis}
@@ -298,25 +298,36 @@ windows are used as the gaussian function falls off close to zero quickly.
 \subsubsection{Example of Gabor Filtering}
 \label{example-of-gabor-filtering}
 In the following example Gabor filters are applied to an image to obtain a
-spatial amplitude map of a vertical frequency component.
+spatial amplitude map of a vertical frequency component. The amplitude is
+computed from the equation $A = \sqrt{C^{2}+S^{2}}$.
 
-The input image.
 \begin{figure}
-    \includegraphics{input2.png}
+  \label{fig:gabor-kernel}
+  \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{gabor_kernel.png}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{gabor_kernel2.png}
+    \end{subfigure}
+    \caption{The Gabor kernels to be convolved with the input.}
 \end{figure}
 
-The gabor kernels, which are convolved with the input.
 \begin{figure}
-    \includegraphics{gabor_kernel.png}
-\end{figure}
-\begin{figure}
-    \includegraphics{gabor_kernel2.png}
-\end{figure}
-
-The spatial amplitude map. The amplitude is computed from the equation $A =
-\sqrt{C^{2}+S^{2}}$.
-\begin{figure}
-    \includegraphics{gabor_output.png}
+  \label{fig:gabor-input-output}
+  \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=1.\linewidth]{input2.png}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[width=1.\linewidth]{gabor_output.png}
+    \end{subfigure}
+    \caption{The input image and corresponding spatial amplitude map computed by
+    convolving the gabor kernels with the image.}
 \end{figure}
 
 \end{document}
