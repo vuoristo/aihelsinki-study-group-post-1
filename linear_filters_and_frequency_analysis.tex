@@ -103,9 +103,8 @@ representation of a signal is given by $A \cos(\omega_{x} x + \omega_{y} y +
 \Psi)$, where $\omega_{x}$ and $\omega_{y}$ stand for frequencies in
 corresponding directions. The two dimensional sinusoidal components are
 basically just cosine waves on a plane with different frequencies, amplitudes
-and phases. The figures~\ref{sinusoidal-waves} present examples of such waves.
+and phases. The figure~\ref{fig:sinusoidal-waves} present examples of such waves.
 \begin{figure}
-  \label{fig:sinusoidal-waves}
   \centering
     \begin{subfigure}[t]{0.49\textwidth}
       \centering
@@ -117,6 +116,7 @@ and phases. The figures~\ref{sinusoidal-waves} present examples of such waves.
     \end{subfigure}
     \caption{Two examples of sinusoidal waves with different x and y
     frequencies}
+    \label{fig:sinusoidal-waves}
 \end{figure}
 
 The transformation from the spatial domain to the frequency domain can be done
@@ -196,7 +196,6 @@ image for the convolution and the results of convolution with Gaussian
 arepresented in the figure~\ref{fig:gaussian-input-output}. (source:
 \url{https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss_1840_by_Jensen.jpg})
 \begin{figure}
-  \label{fig:gaussian-kernel}
   \centering
     \begin{subfigure}[t]{0.49\textwidth}
       \centering
@@ -208,10 +207,10 @@ arepresented in the figure~\ref{fig:gaussian-input-output}. (source:
     \end{subfigure}
     \caption{Gaussian kernel on the left with its amplitude response on the
     right.}
+    \label{fig:gaussian-kernel}
 \end{figure}
 
 \begin{figure}
-  \label{fig:gaussian-input-output}
   \centering
     \begin{subfigure}[t]{0.49\textwidth}
       \centering
@@ -222,6 +221,7 @@ arepresented in the figure~\ref{fig:gaussian-input-output}. (source:
       \includegraphics[width=0.99\linewidth]{output.png}
     \end{subfigure}
     \caption{Input and output images of the Gaussian filter.}
+    \label{fig:gaussian-input-output}
 \end{figure}
 
 The amplitude response of the filter kernel is shown in figure
@@ -243,7 +243,6 @@ response shows that there are more high frequency components retained (bright
 pixels away from origin). Filtering with such kernel will result to less blurred
 image compared to the kernel in figure \ref{fig:gaussian-kernel}.
 \begin{figure}
-  \label{fig:gaussian-kernel-2}
   \centering
     \begin{subfigure}[t]{0.49\textwidth}
       \centering
@@ -254,6 +253,7 @@ image compared to the kernel in figure \ref{fig:gaussian-kernel}.
       \includegraphics[width=0.99\linewidth]{freq2.png}
     \end{subfigure}
     \caption{Smaller $\sigma$ kernel and its amplitude response.}
+    \label{fig:gaussian-kernel-2}
 \end{figure}
 
 \subsection{Frequency-based Representation as a Basis}
@@ -315,7 +315,6 @@ figure shows that the selected filters resulted in high output where vertical
 features are present in the input image.
 
 \begin{figure}
-  \label{fig:gabor-kernel}
   \centering
     \begin{subfigure}[t]{0.49\textwidth}
       \centering
@@ -326,10 +325,10 @@ features are present in the input image.
       \includegraphics[width=0.99\linewidth]{gabor_kernel2.png}
     \end{subfigure}
     \caption{The Gabor kernels to be convolved with the input.}
+    \label{fig:gabor-kernel}
 \end{figure}
 
 \begin{figure}
-  \label{fig:gabor-input-output}
   \centering
     \begin{subfigure}[t]{0.49\textwidth}
       \centering
@@ -340,7 +339,9 @@ features are present in the input image.
       \includegraphics[width=1.\linewidth]{gabor_output.png}
     \end{subfigure}
     \caption{The input image and corresponding spatial amplitude map computed by
-    convolving the gabor kernels with the image.}
+    convolving the gabor kernels with the image and computing the amplitude
+    according to equation \ref{eq:amplitude-s-c}.}
+    \label{fig:gabor-input-output}
 \end{figure}
 
 \end{document}
