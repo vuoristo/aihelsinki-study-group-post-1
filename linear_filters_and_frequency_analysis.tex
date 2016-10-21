@@ -68,7 +68,7 @@ context of natural image statistics this is done because the impulse response
 has desired properties in the frequency based analysis of linear filtering,
 which we will come back to in the next section. The other reason is that the
 convolution operation offers mathematical convenience as it is a commutative
-operation\url{http://www.deeplearningbook.org/contents/convnets.html}.
+operation \url{http://www.deeplearningbook.org/contents/convnets.html}.
 
 With convolution in our toolbox we can express the filtering operation using
 the impulse response as
@@ -191,7 +191,10 @@ f_b_representation = np.abs(
 \end{minipage}
 
 The gaussian kernel extracted from the SciPy filtering operation and its
-amplitude response are shown in the figure~\ref{fig:gaussian-kernel}.
+amplitude response are shown in the figure~\ref{fig:gaussian-kernel}. The input
+image for the convolution and the results of convolution with Gaussian
+arepresented in the figure~\ref{fig:gaussian-input-output}. (source:
+\url{https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss_1840_by_Jensen.jpg})
 \begin{figure}
   \label{fig:gaussian-kernel}
   \centering
@@ -207,9 +210,6 @@ amplitude response are shown in the figure~\ref{fig:gaussian-kernel}.
     right.}
 \end{figure}
 
-The input image for the convolution and the results of convolution with Gaussian
-arepresented in the figure~\ref{fig:gaussian-input-output}. (source:
-\url{https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss_1840_by_Jensen.jpg})
 \begin{figure}
   \label{fig:gaussian-input-output}
   \centering
@@ -224,8 +224,8 @@ arepresented in the figure~\ref{fig:gaussian-input-output}. (source:
     \caption{Input and output images of the Gaussian filter.}
 \end{figure}
 
-The amplitude response of the filter kernel is shown in
-figure~\ref{fig:gaussian-kernel}. In the picture dark pixels correspond to small
+The amplitude response of the filter kernel is shown in figure
+\ref{fig:gaussian-kernel}. In the picture dark pixels correspond to small
 amplitude and light pixels correspond to high amplitude. The amplitude of the 0
 frequency is shown in the center of the picture. The pixels away from the center
 have higher frequencies. The direction where the pixel is from the center
@@ -240,7 +240,8 @@ With a Gaussian kernel computed with smaller standard deviation more of the high
 frequency components are retained. The figure~\ref{fig:gaussian-kernel-2}
 presents the new kernel and its amplitude response. The corresponding amplitude
 response shows that there are more high frequency components retained (bright
-pixels away from origin).
+pixels away from origin). Filtering with such kernel will result to less blurred
+image compared to the kernel in figure \ref{fig:gaussian-kernel}.
 \begin{figure}
   \label{fig:gaussian-kernel-2}
   \centering
@@ -257,19 +258,23 @@ pixels away from origin).
 
 \subsection{Frequency-based Representation as a Basis}
 \label{frequency-based-representation-as-a-basis}
-The frequency-based representation can be viewed as defining a basis and
+The frequency-based representation can be viewed as defining a linear basis and
 finding coefficients in that basis. The idea is that any signal of the form $A
 \cos(\omega x + \Psi)$ can be represented in the form $C\cos(\omega x) +
-S\sin(\omega x)$ where S and C are some coefficients in our basis. This is
-useful because defining S and C in a linear basis are linear operations and it
-makes the calculation of amplitude $A$ and phase $\Psi$ simple. This rather
-superficial treatment can be augmented by looking at the textbook section 2.3.
+S\sin(\omega x)$ where $S$ and $C$ are some coefficients in our basis. This is
+useful because finding $S$ and $C$ in a linear basis are linear operations and it
+makes the calculation of amplitude $A$ and phase $\Psi$ simple. The formulas for
+$A$ and $\Psi$ in terms of $S$ and $C$ are given in the following equations
+\ref{eq:amplitude-s-c}, \ref{eq:phase-s-c}.
 \begin{equation}
+  \label{eq:amplitude-s-c}
   A = \sqrt{C^{2}+S^{2}}
 \end{equation}
 \begin{equation}
+  \label{eq:phase-s-c}
   \Psi = -\arctan{\frac{S}{C}}
 \end{equation}
+This rather superficial treatment is augmented in the textbook section 2.3.
 
 \subsection{Space-frequency Analysis}
 \label{space-frequency-analysis}
@@ -284,17 +289,17 @@ Space-frequency analysis can be conducted by filtering the image with two
 localized sinusoidal filters and computing the amplitudes of the filters. The
 localized sinusoidal filters are called Gabor filters. On a high-level their
 idea is that the sinusoidal plane wave is weighted by a windowing function,
-making it very localized. The formula for coefficients C becomes
+making it very localized. The formula for coefficients $C$ becomes
 \begin{equation}
   C(x,y) = \sum_{x}{\sum_{y}{W(x-x_{0}, y-y_{0}) \cos(\omega_{x} (x - x_{0}) + \omega_{y} (y - y_{0})) }}
 \end{equation}
-The formula for coefficients S is similiar. With the coefficients C and S at
-hand, the amplitudes can be calculated using the formula in the previous
+The formula for coefficients $S$ is similiar. With the coefficients $C$ and $S$
+at hand, the amplitudes can be calculated using the formula in the previous
 section.
 
 The windowing function $W(x,y)$ in the above formula for Gabor filters is the
 Gaussian function. The width of the window can be controlled by changing the
-$\sigma$ parameter of the Gaussian function. In 2d case there are separate
+$\sigma$ parameter of the Gaussian function. In 2D case there are separate
 standard deviation parameters for both axes. In practical computation truncated
 windows are used as the gaussian function falls off close to zero quickly.
 
@@ -302,7 +307,12 @@ windows are used as the gaussian function falls off close to zero quickly.
 \label{example-of-gabor-filtering}
 In the following example Gabor filters are applied to an image to obtain a
 spatial amplitude map of a vertical frequency component. The amplitude is
-computed from the equation $A = \sqrt{C^{2}+S^{2}}$.
+computed from the equation $A = \sqrt{C^{2}+S^{2}}$. The Gabor filters are
+presented in figure \ref{fig:gabor-kernel}. The filters have a phase difference
+of $\pi/2$. The output of the amplitude calculation is presented in
+figure~\ref{fig:gabor-input-output}. As expected from the filter images the
+figure shows that the selected filters resulted in high output where vertical
+features are present in the input image.
 
 \begin{figure}
   \label{fig:gabor-kernel}
