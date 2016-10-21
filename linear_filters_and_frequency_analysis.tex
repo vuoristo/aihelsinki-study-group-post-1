@@ -156,14 +156,16 @@ filtering operation using the properties of impulse response. NumPy is used
 throughout the examples and the library name abbreviated as np.
 
 \begin{lstlisting}[language=Python]
-# Here we make use of the properties of the impulse response to get a gaussian
-# kernel using the scipy gaussian filter. Create an array with all zeros except
-# for one element in the center.
+# Here we make use of the properties of the impulse
+# response to get a gaussian kernel using the scipy
+# gaussian filter. Create an array with all zeros
+# except for one element in the center.
 impulse = np.zeros((21,21))
 impulse[10,10] = 1.
 
-# Apply the gaussian filter to the impulse to obtain the gaussian kernel.
-# gaussian_filter is scipy.ndimage.filters.gaussian_filter
+# Apply the gaussian filter to the impulse to obtain
+# the gaussian kernel. gaussian_filter is
+# scipy.ndimage.filters.gaussian_filter
 gaussian_kernel = gaussian_filter(impulse, 3)
 \end{lstlisting}
 The gaussian kernel is shown in the following figure.
@@ -190,9 +192,11 @@ And the corresponding output.
 In the last snippet the frequency-based representation of the gaussian kernel
 is computed.
 \begin{lstlisting}[language=Python]
-# Compute the frequency-based representation of the filter
-# fftshift is a convenience method for organizing the fft-output
-f_b_representation = np.abs(np.fft.fftshift(np.fft.fft2(gaussian_kernel)))
+# Compute the frequency-based representation of the
+# filter fftshift is a convenience method for
+# organizing the fft-output
+f_b_representation = np.abs(
+    np.fft.fftshift(np.fft.fft2(gaussian_kernel)))
 \end{lstlisting}
 The amplitude response of the filter kernel is shown below. In the picture dark
 pixels correspond to small amplitude and light pixels correspond to high
